@@ -1,8 +1,17 @@
-### 1: clone the project
-```
+## 1: Clone the project
+
+```bash
 https://github.com/Pooria-Faramarzian/admin-panel
 ```
-### 2: use the project
+
+## 2: Install required dependencies
+
+```bash
+npm install
+```
+
+## 3: Run and use the project
+
 ### `yarn start`
 
 Runs the app in the development mode.\
