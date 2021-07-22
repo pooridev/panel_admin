@@ -1,0 +1,3 @@
+.Logo {
+  @apply flex justify-start text-xl flex-1 lg:w-0 lg:flex-1;
+}
