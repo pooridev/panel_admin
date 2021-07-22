@@ -1,7 +1,7 @@
-import classes from './Logo.module.css';
+import styles from './Logo.module.css';
 
 const Logo = () => (
-  <div className={classes.Logo}>
+  <div className={styles.Logo}>
     <a href='/'>PF</a>
   </div>
 );

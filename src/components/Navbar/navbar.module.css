@@ -1,0 +1,17 @@
+.Header {
+  @apply max-w-screen-2xl mx-auto px-4 sm:px-6;
+}
+
+.Navbar {
+  @apply flex justify-between items-center border-b-2 border-gray-100 py-6 md:space-x-10;
+}
+
+.Items {
+  @apply hidden md:flex items-center justify-center gap-5 md:flex-1 lg:w-0;
+}
+
+.Actions {
+  @apply hidden md:flex items-center justify-end md:flex-1 lg:w-0;
+}
+
+

@@ -1,0 +1,11 @@
+.Footer p {
+  @apply mt-6 text-center text-base font-medium text-gray-500;
+}
+
+.PopoverPanel {
+  @apply absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden;
+}
+
+.Menu {
+  @apply rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50;
+}
