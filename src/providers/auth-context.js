@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  useState
+} from 'react';
 import Swal from 'sweetalert2';
 import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from './actions';
 
@@ -65,15 +72,15 @@ export const AuthProvider = ({ children }) => {
   const emailChangeHandler = email => setEmailValue(email);
   const passwordChangeHandler = password => setPasswordValue(password);
 
-  const areInputsValid = () => {
+  const areInputsValid = useCallback(() => {
     const emailPattern = /^\S+@\S+\.\S+$/;
 
     return emailPattern.test(emailValue) && passwordValue.length > 6;
-  };
+  }, [emailValue, passwordValue]);
 
-  const switchAuthModeHandler = () => {
+  const switchAuthModeHandler = useCallback(() => {
     authMode === 'Sign in' ? setAuthMode('Sign up') : setAuthMode('Sign in');
-  };
+  }, [authMode]);
 
   const showErrorAler = message => {
     const Toast = Swal.mixin({
@@ -94,7 +101,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const authHandler = async () => {
+  const authHandler = useCallback(async () => {
     dispatch({ type: AUTH_START });
     if (!areInputsValid()) {
       dispatch({ type: AUTH_FAIL });
@@ -127,26 +134,33 @@ export const AuthProvider = ({ children }) => {
       showErrorAler(err.message);
       dispatch({ type: AUTH_FAIL, error: err.message });
     }
-  };
+  }, [authMode, areInputsValid, emailValue, passwordValue]);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        error,
-        loading,
-        token,
-        authMode,
-        userData,
+  const contextValue = useMemo(
+    () => ({
+      error,
+      loading,
+      token,
+      authMode,
+      userData,
 
-        switchAuthModeHandler,
-        authHandler,
-        emailChangeHandler,
-        passwordChangeHandler,
-        dispatch: dispatch
-      }}
-      children={children}
-    />
+      switchAuthModeHandler,
+      authHandler,
+      emailChangeHandler,
+      passwordChangeHandler,
+      dispatch: dispatch
+    }),
+    [
+      switchAuthModeHandler,
+      authHandler,
+      error,
+      loading,
+      token,
+      authMode,
+      userData
+    ]
   );
+  return <AuthContext.Provider value={contextValue} children={children} />;
 };
 
 export const useAuth = () => useContext(AuthContext);
