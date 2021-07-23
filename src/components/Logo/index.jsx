@@ -1,8 +1,9 @@
 import styles from './Logo.module.css';
+import { Link } from 'react-router-dom';
 
 const Logo = () => (
   <div className={styles.Logo}>
-    <a href='/'>PF</a>
+    <Link to='/'>PF</Link>
   </div>
 );
 

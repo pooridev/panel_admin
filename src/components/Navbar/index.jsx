@@ -2,7 +2,7 @@ import { Popover } from '@headlessui/react';
 import Logo from '../Logo';
 import MenuButton from './../MenuButton';
 import NavbarItem from './NavbarItem';
-import MobileNavbar from './MobileNavbar';
+import MobileMenu from './MobileMenu';
 
 import styles from './Navbar.module.css';
 import Action from './Action';
@@ -22,12 +22,11 @@ const Navbar = () => (
               <NavbarItem text='Users' link='/users' />
             </nav>
             <div className={styles.Actions}>
-              <Action type='SIGN-IN' />
-              <Action type='SIGN-UP' />
+              <Action />
             </div>
           </div>
         </header>
-        <MobileNavbar open={open} />
+        <MobileMenu open={open} />
       </>
     )}
   </Popover>

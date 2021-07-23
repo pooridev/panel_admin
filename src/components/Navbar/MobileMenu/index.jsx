@@ -2,10 +2,10 @@ import { Popover, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Action from '../Action';
 import NavbarItem from '../NavbarItem';
-import Logo from './../../Logo/index';
-import styles from './MobileNavbar.module.css';
+import Logo from '../../Logo/index';
+import styles from './MobileMenu.module.css';
 
-const MobileNavbar = ({ open }) => (
+const MobileMenu = ({ open }) => (
   <Transition
     show={open}
     as={Fragment}
@@ -26,11 +26,7 @@ const MobileNavbar = ({ open }) => (
             <NavbarItem text='Users' link='/users' />
           </nav>
           <footer className={styles.Footer}>
-            <Action type='SIGN-UP' isMobile />
-            <p>
-              Existing user? {'  '}
-              <Action type='SIGN-IN' isMobile />
-            </p>
+            <Action isMobile />
           </footer>
         </div>
       </div>
@@ -38,4 +34,4 @@ const MobileNavbar = ({ open }) => (
   </Transition>
 );
 
-export default MobileNavbar;
+export default MobileMenu;
