@@ -1,3 +1,6 @@
+.Footer {
+  @apply flex justify-center bg-gray-100 rounded-lg
+}
 .Footer p {
   @apply mt-6 text-center text-base font-medium text-gray-500;
 }
