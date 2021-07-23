@@ -7,7 +7,7 @@ import {
   useState
 } from 'react';
 import Swal from 'sweetalert2';
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from './actions';
+import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS, SIGN_OUT } from './actions';
 
 export const AuthContext = createContext({
   loading: false,
@@ -16,7 +16,8 @@ export const AuthContext = createContext({
   dispatch: () => {},
   emailChangeHandler: () => {},
   passwordChangeHandler: () => {},
-  authHanlder: () => {}
+  authHanlder: () => {},
+  logoutHandler: () => {}
 });
 
 const initialState = {
@@ -49,6 +50,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.error
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        userData: null
       };
 
     default:
@@ -100,7 +106,7 @@ export const AuthProvider = ({ children }) => {
       title: message
     });
   };
-
+  // login & register handler
   const authHandler = useCallback(async () => {
     dispatch({ type: AUTH_START });
     if (!areInputsValid()) {
@@ -136,6 +142,12 @@ export const AuthProvider = ({ children }) => {
     }
   }, [authMode, areInputsValid, emailValue, passwordValue]);
 
+  // logout handler
+  const logoutHandler = () => {
+    dispatch({ type: SIGN_OUT });
+    localStorage.removeItem('user');
+  };
+
   const contextValue = useMemo(
     () => ({
       error,
@@ -148,7 +160,8 @@ export const AuthProvider = ({ children }) => {
       authHandler,
       emailChangeHandler,
       passwordChangeHandler,
-      dispatch: dispatch
+      logoutHandler,
+      dispatch
     }),
     [
       switchAuthModeHandler,

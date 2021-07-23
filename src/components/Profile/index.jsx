@@ -4,13 +4,13 @@ import { useAuth } from './../../providers/auth-context';
 import { Link } from 'react-router-dom';
 
 const Profile = () => {
-  const { userData } = useAuth();
+  const { userData, logoutHandler } = useAuth();
 
   const fakeAvatar = userData.email.slice(
     userData.email[1],
     userData.email.length - (userData.email.length - 1)
   );
-  
+
   return (
     <Menu as='div' className='ml-3 relative'>
       {({ open }) => (
@@ -48,6 +48,7 @@ const Profile = () => {
               <Menu.Item
                 as={Link}
                 to='/login'
+                onClick={logoutHandler}
                 className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700'>
                 Sign out
               </Menu.Item>
