@@ -1,1 +1,1 @@
-export { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, LOG_OUT } from './actiontypes';
+export { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, SIGN_OUT } from './actiontypes';
