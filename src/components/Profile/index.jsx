@@ -32,7 +32,7 @@ const Profile = () => {
             leaveTo='transform opacity-0 scale-95'>
             <Menu.Items
               static
-              className='origin-top-right absolute md:right-0 -left-20 md:left-auto mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              className='origin-top-right z-10 absolute md:right-0 -left-20 md:left-auto mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
               <Menu.Item
                 as={Link}
                 to='/profile'
