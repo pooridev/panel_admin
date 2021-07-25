@@ -1,0 +1,35 @@
+.HeartCheckbox {
+  @apply transition z-10 absolute right-1 appearance-none ease-in duration-300 bg-gray-600 rounded-full w-8 h-8 text-center p-1;
+}
+
+.HeartCheckbox:checked.HeartCheckbox::before,
+.HeartCheckbox:checked.HeartCheckbox::after {
+  @apply bg-red-700;
+}
+
+.HeartCheckbox:checked.HeartCheckbox {
+  @apply bg-gray-50 shadow-2xl;
+}
+
+.HeartCheckbox::before,
+.HeartCheckbox::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  width: 12px;
+  height: 20px;
+  border-radius: 50px 50px 0 0;
+  background: #fff;
+}
+
+.HeartCheckbox::before {
+  left: 16px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.HeartCheckbox::after {
+  left: 4px;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}

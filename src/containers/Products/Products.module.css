@@ -1,0 +1,11 @@
+.Products {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4
+} 
+
+.Header {
+  @apply bg-gray-50 text-xl flex items-center py-5 text-gray-800 gap-2
+}
+
+.Header span {
+  @apply font-semibold
+}
