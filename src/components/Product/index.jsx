@@ -2,23 +2,18 @@ import { useEffect, useRef } from 'react';
 import Content from './content/inde';
 import styles from './Product.module.css';
 
-const Product = props => {
+const Product = ({ product }) => {
   const checkboxRef = useRef(null);
 
-  const { product, products } = props;
-
   const switchLikeHandler = async productId => {
-    const allProducts = [...products];
-    const targetProduct = allProducts.find(p => p.id === productId);
-
-    targetProduct.isLiked = !targetProduct.isLiked;
-    const res = await fetch('/api/products/' + productId, {
-      method: 'PATCH',
-      body: JSON.stringify({ products: allProducts }),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    const data = await res.json();
-    console.log(data);
+    try {
+      await fetch(`/products/${productId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   useEffect(() => {

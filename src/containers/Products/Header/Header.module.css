@@ -1,0 +1,7 @@
+.Header {
+  @apply bg-gray-50 text-xl flex items-center py-5 text-gray-800 gap-2;
+}
+
+.Header span {
+  @apply font-semibold;
+}
