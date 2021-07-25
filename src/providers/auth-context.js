@@ -7,13 +7,12 @@ import {
   useState
 } from 'react';
 import Swal from 'sweetalert2';
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS, SIGN_OUT } from './actions';
+import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS, LOG_OUT } from './actions';
 
 export const AuthContext = createContext({
   loading: false,
   authMode: '',
 
-  dispatch: () => {},
   emailChangeHandler: () => {},
   passwordChangeHandler: () => {},
   authHanlder: () => {},
@@ -21,7 +20,6 @@ export const AuthContext = createContext({
 });
 
 const initialState = {
-  token: null,
   error: null,
   loading: false,
   userData: JSON.parse(localStorage.getItem('user')) || null
@@ -38,7 +36,6 @@ const authReducer = (state = initialState, action) => {
 
     case AUTH_SUCCESS:
       localStorage.setItem('user', JSON.stringify(action.userData));
-      console.log(action.userData);
       return {
         userData: action.userData,
         loading: false,
@@ -51,7 +48,9 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         error: action.error
       };
-    case SIGN_OUT:
+
+    case LOG_OUT:
+      localStorage.removeItem('user');
       return {
         ...state,
         userData: null
@@ -65,9 +64,9 @@ const authReducer = (state = initialState, action) => {
 export const AuthProvider = ({ children }) => {
   // Reducer for handling HTTP requests
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const { error, loading, token, userData } = state;
+  const { loading, userData } = state;
 
-  // states
+  // state of the Auth form
   const [authMode, setAuthMode] = useState('Sign in');
 
   // input values
@@ -88,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     authMode === 'Sign in' ? setAuthMode('Sign up') : setAuthMode('Sign in');
   }, [authMode]);
 
-  const showErrorAler = message => {
+  const showErrorAlert = message => {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -109,11 +108,14 @@ export const AuthProvider = ({ children }) => {
   // login & register handler
   const authHandler = useCallback(async () => {
     dispatch({ type: AUTH_START });
+
+    // if user didn't fill the inputs with correct values
     if (!areInputsValid()) {
       dispatch({ type: AUTH_FAIL });
-      showErrorAler('enter a valid email and password ');
+      showErrorAlert('enter a valid email and password');
       return;
     }
+
     // in case if all inputs were valid
     const userData = {
       email: emailValue,
@@ -132,46 +134,38 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' }
       });
       const data = await response.json();
-      dispatch({
-        type: AUTH_SUCCESS,
-        userData: { email: userData.email, token: data.token }
-      });
+
+      // if the entered info by user was correct (so we got a token from server)
+      if ('token' in data) {
+        dispatch({
+          type: AUTH_SUCCESS,
+          userData: { email: userData.email, token: data.token }
+        });
+      } else {
+        showErrorAlert('Wrong Password or Email');
+        dispatch({ type: AUTH_FAIL, error: data.message });
+      }
     } catch (err) {
-      showErrorAler(err.message);
+      showErrorAlert(err.message);
       dispatch({ type: AUTH_FAIL, error: err.message });
     }
   }, [authMode, areInputsValid, emailValue, passwordValue]);
 
-  // logout handler
-  const logoutHandler = () => {
-    dispatch({ type: SIGN_OUT });
-    localStorage.removeItem('user');
-  };
+  const logoutHandler = () => dispatch({ type: LOG_OUT });
 
   const contextValue = useMemo(
     () => ({
-      error,
       loading,
-      token,
       authMode,
       userData,
 
+      logoutHandler,
       switchAuthModeHandler,
       authHandler,
       emailChangeHandler,
-      passwordChangeHandler,
-      logoutHandler,
-      dispatch
+      passwordChangeHandler
     }),
-    [
-      switchAuthModeHandler,
-      authHandler,
-      error,
-      loading,
-      token,
-      authMode,
-      userData
-    ]
+    [switchAuthModeHandler, authHandler, loading, authMode, userData]
   );
   return <AuthContext.Provider value={contextValue} children={children} />;
 };
