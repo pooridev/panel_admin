@@ -1,7 +1,7 @@
 ## 1: Clone the project
 
 ```bash
-https://github.com/Pooria-Faramarzian/admin-panel
+https://github.com/Pooria-Faramarzian/panel_admin
 ```
 
 ## 2: Install required dependencies
