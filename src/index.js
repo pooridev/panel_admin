@@ -4,6 +4,11 @@ import './index.css';
 import App from './containers/App';
 import { AuthProvider } from './providers/auth-context';
 import { BrowserRouter as Router } from 'react-router-dom';
+// import makeServer from './server';
+
+// if (process.env.NODE_ENV === 'development') {
+//   makeServer({ environment: 'development' });
+// }
 
 ReactDOM.render(
   <React.StrictMode>

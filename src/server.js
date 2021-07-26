@@ -17,11 +17,8 @@ export default function makeServer() {
       server.create('product', products[7]);
     },
     routes() {
-      this.get('/https://reqres.in/api/users?page=1', (schema, request) => {
-        return request;
-      });
-      this.get('/https://reqres.in/api/users?page=1');
-      this.post('/https://reqres.in/api/login/');
+      this.namespace = ''
+      this.passthrough('/')
       this.get('/products', (schema, request) => schema.products.all());
       this.patch('/products/:id', (schema, request) => {
         let newAttrs = JSON.parse(request.requestBody);
@@ -30,6 +27,10 @@ export default function makeServer() {
         product.update({ isLiked: !product.isLiked });
         return newAttrs;
       });
+      this.passthrough()
+      this.passthrough('https://reqres.in/api/users?page=1&per_page=12');
+      this.passthrough()
+      this.passthrough('https://reqres.in/api/login');
     }
   });
 }
